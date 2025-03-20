@@ -33,6 +33,7 @@ const startServer = async () => {
 
     app.listen(3000, () => {
       console.log('Server is running on port 3000');
+      console.log('Server is running on port 3000');
     });
   } catch (err) {
     throw new Error('Erro ao iniciar o servidor', err);
