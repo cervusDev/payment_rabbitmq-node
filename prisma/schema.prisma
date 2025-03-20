@@ -33,6 +33,7 @@ model Payment {
   id Int @id @default(autoincrement())
 
   stripeId String?
+  currency String?
   amount         Decimal
   status         PaymentStatus
   paymentMethod PaymentMethod

@@ -3,7 +3,7 @@ import { ConnectRabbitMQExchange } from '../../../config/rabbitmq.js';
 
 const queue = process.env.INSERT_VALUE_TO_WALLET;
 
-export class SubscribehValueToWalletQueue {
+export class SubscribeWalletQueue {
   constructor() {
     this.walletService = new WalletService();
     this.rabbitmq = new ConnectRabbitMQExchange();

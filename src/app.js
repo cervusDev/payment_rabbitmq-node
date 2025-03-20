@@ -8,7 +8,8 @@ import { healthRouter } from './routes/health.js';
 import { auhtRouter } from './usecases/auth/routes/auth.js';
 import { createUserRouter } from './usecases/user/routes/create_user.js';
 import { addValueToWalletRouter } from './usecases/wallet/routes/add_money.js';
-import { SubscribehValueToWalletQueue } from './usecases/wallet/queues/wallet_consumer.js';
+import { SubscribeWalletQueue } from './usecases/wallet/queues/wallet_consumer.js';
+import { SubscribePaymentQueue } from './usecases/payment/queues/payment_consumer.js';
 
 dotenv.config();
 const app = express();
@@ -29,10 +30,10 @@ app.use(addValueToWalletRouter);
 const startServer = async () => {
   try {
     // Inicializando a escuta da fila de acrescimo do valor na carteira
-    new SubscribehValueToWalletQueue();
+    new SubscribeWalletQueue();
+    new SubscribePaymentQueue();
 
     app.listen(3000, () => {
-      console.log('Server is running on port 3000');
       console.log('Server is running on port 3000');
     });
   } catch (err) {

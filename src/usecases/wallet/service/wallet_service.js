@@ -1,13 +1,13 @@
+import { PublishWalletQueue } from '../queues/wallet_producer.js';
 import { walleRepository } from '../repository/wallet_repository.js';
-import { PublishValueToWalletQueue } from '../queues/wallet_producer.js';
 import { UserRepository } from '../../user/repository/user_repository.js';
 import { sendMessageToInsertValueToWallet } from '../../../config/emailjs.js';
 
 export class WalletService {
   constructor() {
-    this.userRepository = new UserRepository();
     this.walleRepository = walleRepository;
-    this.walletQueue = new PublishValueToWalletQueue();
+    this.userRepository = new UserRepository();
+    this.walletQueue = new PublishWalletQueue();
   };
 
   async publishValueWallet({ userId, amount, balanceType }) {

@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 
-export class StripeConfig {
+class StripeConfig {
   constructor() {
     this.stripe = null;
   }
@@ -14,3 +14,5 @@ export class StripeConfig {
     return this.stripe;
   };
 };
+
+export const stripe = new StripeConfig()
