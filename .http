@@ -1,0 +1,37 @@
+# Requisição GET
+# GET http://localhost:3000/health
+
+# Requisição POST para criação de usuário
+# POST http://localhost:3000/create-user
+# Content-Type: application/json
+
+# {
+#   "name": "Gustavo",
+#   "email": "gustavo.cervus@gmail.com",
+#   "password": "senha"
+# }
+
+# Requisição POST de login
+POST http://localhost:3000/auth
+Content-Type: application/json
+
+{
+  "email": "gustavo.cervus@gmail.com",
+  "password": "senha"
+}
+
+### Requisição GET para a rota protegida
+# GET http://localhost:3000/protected
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwiaWF0IjoxNzQyMzMxMDUwLCJleHAiOjE3NDI0MTc0NTB9.LgAbOLCK9HcrAEr9pY0bV6HPNW5U8qAeajaXcue-reQ
+
+# Requisição POST para adicionar dinheiro a carteira
+# ['debit_balance', 'ticket_balance', 'credit_balance']
+# POST http://localhost:3000/wallet/add_money
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwiaWF0IjoxNzQyMzU2MTYwLCJleHAiOjE3NDI0NDI1NjB9.cZ6TKpSFM-1yALeLNDjNly6zM3lK2jhSsDtUYvgObgY
+# Content-Type: application/json
+
+# {
+#   "userId": 18,
+#   "amount": 100.00,
+#   "balanceType": "debit_balance"
+# }

@@ -1,0 +1,50 @@
+import { walleRepository } from '../repository/wallet_repository.js';
+import { PublishValueToWalletQueue } from '../queues/wallet_producer.js';
+import { UserRepository } from '../../user/repository/user_repository.js';
+import { sendMessageToInsertValueToWallet } from '../../../config/emailjs.js';
+
+export class WalletService {
+  constructor() {
+    this.userRepository = new UserRepository();
+    this.walleRepository = walleRepository;
+    this.walletQueue = new PublishValueToWalletQueue();
+  };
+
+  async publishValueWallet({ userId, amount, balanceType }) {
+    try {
+      if (!['debit_balance', 'ticket_balance', 'credit_balance'].includes(balanceType)) {
+        throw new Error('Tipo de saldo inválido!');
+      }
+
+      const { message } = await this.walletQueue.pub({ userId, amount, balanceType });
+      return { message };
+    } catch (err) {
+      throw new Error('Erro ao enviar pedido de acrescimo na carteira!', err);
+    }
+  }
+
+  async addMoney({ userId, balanceType, amount }) {
+    try {
+      const wallet = await this.walleRepository.findByUser({ userId });
+
+      if (!wallet) {
+        throw new Error(`Carteira não encontrada para o usuário de id:${userId}!`);
+      }
+      
+      const balanceValue =  Number(amount) + Number(wallet[balanceType]);
+
+      const { id, credit_balance, debit_balance } = await this.walleRepository.updateWallet({ userId, balanceType, balanceValue })
+
+      if (!id) {
+        throw new Error('Erro ao atualizar carteira!');
+      };
+
+      const total_amount = Number(credit_balance) + Number(debit_balance);
+
+      const user = await this.userRepository.findByUserId({ id });
+      sendMessageToInsertValueToWallet(user.name, amount, credit_balance, debit_balance, total_amount, user.email)
+    } catch {
+      throw new Error('Erro ao adicionar dinheiro na carteira!', err);
+    }
+  }
+}

@@ -1,0 +1,1 @@
+jest.setTimeout(10000); // Aumenta timeout para evitar testes falhando por demora

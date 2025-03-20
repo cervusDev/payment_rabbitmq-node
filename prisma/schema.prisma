@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+
+  name     String
+  email    String @unique
+  password String
+
+  createdAt DateTime @default(now())
+
+  wallet   Wallet?
+
+  tickets Ticket[]
+  payments Payment[]
+  transaction WalletTransaction[]
+}
+
+model Payment {
+  id Int @id @default(autoincrement())
+
+  amount         Decimal
+  status         PaymentStatus
+  paymentMethod PaymentMethod
+
+  createdAt DateTime @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model Wallet {
+  id Int @id @default(autoincrement())
+
+  debit_balance  Decimal @default(0.0)
+  ticket_balance Decimal @default(0.0)
+  credit_balance Decimal @default(0.0)
+
+  last_updated DateTime @default(now())
+
+  userId Int @unique
+  user User @relation(fields: [userId], references: [id])
+}
+
+model WalletTransaction {
+  id Int @id @default(autoincrement())
+
+  amount Decimal
+  description String
+
+  type TransactionType
+  operation TransactionOperation
+
+  created_at DateTime @default(now())
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Ticket {
+  id        Int   @id @default(autoincrement())
+
+  amount    Decimal
+  dueDate   DateTime
+  status    TicketStatus
+  
+  createdAt DateTime @default(now())
+
+  userId    Int
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum TransactionType {
+  debit
+  ticket
+  credit
+}
+
+enum TransactionOperation {
+  deposit
+  withdraw
+}
+
+enum PaymentStatus {
+  failed
+  pending
+  canceled
+  completed
+}
+
+enum PaymentMethod {
+  debit
+  credit
+  ticket
+}
+
+enum TicketStatus {
+  paid
+  pending
+  canceled
+}

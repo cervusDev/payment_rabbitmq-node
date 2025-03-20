@@ -1,0 +1,24 @@
+1. Criar docker compose
+2. Configurar mysql no docker compose
+3. Testar conexão do banco com docker compose
+4. Iniciar o node
+5. Instalar prisma
+6. Configurar o schema.prisma e criar os models
+7. Rodar a migração do prisma
+8. Rodar o prisma studio
+9. configurar rabbitmq no docker compose
+10. testar a conexão rabbit no index.js
+11. configurar uma rota simples com express
+12. testar a rota com rest client
+13. Configurar swagger
+14. Testar swagger funcionando com uma rota de health
+15. Criar uma rota de criação de usuário
+16. Testar a saúde da rota
+17. Configurar o envio de email 
+18. Acoplar o envio de email a criação de usuário
+19. criar login de usuário
+20. realizar o login de usuário
+21. criar uma rota de acrescimo de valor na carteira do usuário (autenticada)
+22. testar a rota de acrescimo de valor na carteira do usuário (autenticada)
+23. conectar a rota de acrescimo de valor com rabbitmq
+24. Configurar envio de email após o acrescimo realizado com o valor acrescido

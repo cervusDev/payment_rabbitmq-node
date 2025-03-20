@@ -1,0 +1,28 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      - MYSQL_DATABASE=payment_db
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-volume:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - rabbitmq_network
+
+volumes:
+  mysql-volume:
+    driver: local
