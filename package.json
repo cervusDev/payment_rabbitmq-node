@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "nodemon src/app.js",
     "jest:watch": "jest --watchAll",
-    "jest:covarage": "jest --covarage",
-    "test": "jest --covarage"
+    "jest:covarage": "jest --coverage",
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "",
