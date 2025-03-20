@@ -4,10 +4,10 @@ import bodyParser from 'body-parser';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { options } from './config/swagger.js';
-import { auhtRouter } from './routes/auth.js';
 import { healthRouter } from './routes/health.js';
-import { userRouter } from './routes/create_user.js';
-import { addMoneyRouter } from './routes/add_money.js';
+import { auhtRouter } from './usecases/auth/routes/auth.js';
+import { createUserRouter } from './usecases/user/routes/create_user.js';
+import { addValueToWalletRouter } from './usecases/wallet/routes/add_money.js';
 import { SubscribehValueToWalletQueue } from './usecases/wallet/queues/wallet_consumer.js';
 
 dotenv.config();
@@ -22,9 +22,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Integração das rotas na aplicação express
 app.use(auhtRouter);
-app.use(userRouter);
 app.use(healthRouter);
-app.use(addMoneyRouter);
+app.use(createUserRouter);
+app.use(addValueToWalletRouter);
 
 const startServer = async () => {
   try {

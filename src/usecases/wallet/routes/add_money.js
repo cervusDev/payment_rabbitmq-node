@@ -1,8 +1,8 @@
 import express from "express";
-import { authenticateToken } from '../config/token_jwt.js';
-import { WalletController } from '../usecases/wallet/controller/wallet_controller.js';
+import { authenticateToken } from '../../../config/token_jwt.js';
+import { WalletController } from '../controller/wallet_controller.js';
 
-const addMoneyRouter = express.Router();
+const addValueToWalletRouter = express.Router();
 
 /**
  * @swagger
@@ -29,9 +29,9 @@ const addMoneyRouter = express.Router();
  *       201:
  *         description: Usuário criado com sucesso
  */
-addMoneyRouter.post('/wallet/add_money', authenticateToken, (req, res) => {
+addValueToWalletRouter.post('/wallet/add_money', authenticateToken, (req, res) => {
   const walletController = new WalletController();
   walletController.addMoney(req, res);
 })
 
-export { addMoneyRouter };
+export { addValueToWalletRouter };

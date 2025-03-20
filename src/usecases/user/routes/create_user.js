@@ -1,7 +1,7 @@
 import express from 'express';
-import { UserController } from '../usecases/user/controller/user_controller.js';
+import { UserController } from '../controller/user_controller.js';
 
-const userRouter = express.Router();
+const createUserRouter = express.Router();
 
 /**
  * @swagger
@@ -29,9 +29,9 @@ const userRouter = express.Router();
  *         description: Usuário criado com sucesso
  */
 
-userRouter.post('/create-user', (req, res) => {
+createUserRouter.post('/create-user', (req, res) => {
   const userController = new UserController();
   userController.create(req, res);
 });
 
-export { userRouter };
+export { createUserRouter };
