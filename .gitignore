@@ -1,4 +1,62 @@
-node_modules
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Prisma
+prisma/.cache/
+prisma/migrations/
+prisma/dev.db
+prisma/dev.db-journal
+
+# Environment variables
 .env
-coverage
-.vscode
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database
+*.sqlite
+*.sqlite-journal
+mysql-data/
+dump.sql
+
+# RabbitMQ
+rabbitmq/data/
+rabbitmq/log/
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# MacOS / Linux system files
+.DS_Store
+*.swp
+*.swo
+
+# Build artifacts
+dist/
+build/
+out/
+
+# Testing
+coverage/
+jest-cache/
+.nyc_output/
