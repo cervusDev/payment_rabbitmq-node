@@ -22,3 +22,7 @@
 22. testar a rota de acrescimo de valor na carteira do usuário (autenticada)
 23. conectar a rota de acrescimo de valor com rabbitmq
 24. Configurar envio de email após o acrescimo realizado com o valor acrescido
+25. Criar estrutura de usecase do pagamento na ordem (repository, service, controller, routes, testes)
+26. configurar mensageria relacionada ao pagamento na ordem (producer, consumer)
+27. configuração do STRIPE
+28. conexão do stripe no usecase de pagamento (create/retrive)
