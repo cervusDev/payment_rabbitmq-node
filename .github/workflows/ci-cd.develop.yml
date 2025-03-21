@@ -26,6 +26,11 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: 🔑 Configurar variáveis de ambiente
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: echo "Variáveis configuradas"
+
       - name: Run Jest Tests
         run: npm test
 
