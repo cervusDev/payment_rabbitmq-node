@@ -12,19 +12,18 @@ export class SubscribePaymentQueue {
   async sub() {
     const { channel } = await this.rabbitmq.connect();
     
-    channel.assertQueue(queue, { durable: fasle });
+    channel.assertQueue(queue, { durable: false });
     console.log(`[*] Escutando a fila '${queue}'...`);
-
+    
     channel.consume(queue, async (msg) => {
       try {
         const { stripeId } = JSON.parse(msg.content.toString());
-        
         await this.paymentService.confirmPayment({ stripeId });
 
         console.log(`[x] Recebido na fila: '${msg.content.toString()}'`);
         channel.ack(msg);
       } catch(err) {
-        throw new Error('Erro ao receber o pagamento!');
+        throw new Error(err);
       }
     });
   };

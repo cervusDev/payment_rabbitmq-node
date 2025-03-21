@@ -1,28 +1,36 @@
-import { stripe } from '../../../config/stripe.js';
-import { prisma } from '../../../config/prisma.js';
+import { StripeConfig } from '../../../config/stripe.js';
+import { sendMessageToPaymentSucced } from '../../../config/emailjs.js';
+import { PaymentRepository } from '../repository/payment_repository.js';
+import { UserRepository } from '../../user/repository/user_repository.js';
 
 export class PaymentService {
   constructor() {
-    this.stripe = stripe.connect();
-    this.prisma = prisma;
+    this.stripe = new StripeConfig();
+    this.userRepository = new UserRepository();
+    this.paymentRepository = new PaymentRepository();
   };
 
-  async createPaymentCredit({ amount, currency, payment_method }) {
+  async createPaymentCredit({ amount, currency, payment_method, userId }) {
     try {
-      const paymentIntent = await this.stripe.paymentIntents.create({
+      const { stripe } = await this.stripe.connect()
+
+      const { id } = await stripe.paymentIntents.create({
         amount,
         currency,
         payment_method,
+        payment_method_types: ['card'],
       });
+      
+      const data = {
+        userId,
+        amount,
+        currency,
+        stripeId: id,
+        status: "pending",
+        paymentMethod: 'credit',
+      };
 
-      const { status, stripeId, paymentMethod, ...res } = await this.prisma.payment.create({
-        data: {
-          amount,
-          status: "pending",
-          currency,
-          stripeId: paymentIntent.id
-        }
-      });
+      const { status, stripeId, paymentMethod, ...res } = await this.paymentRepository.createPayment({ data })
 
       return {
         status, 
@@ -32,19 +40,36 @@ export class PaymentService {
         currency: res.currency, 
       }
     } catch (err) {
-      throw new Error("Erro ao processar pagamento.");
+      throw new Error(err);
     };
   };
 
   async confirmPayment({ stripeId }) {
     try {
-      const paymentIntent = await this.stripe.paymentIntents.retrieve(stripeId);
+      const { stripe } = await this.stripe.connect();
+      const paymentIntent = await stripe.paymentIntents.retrieve(stripeId);
+      
+      if (paymentIntent.status === "requires_confirmation") {
+        const paymentUpdated = await this.paymentRepository.updatePaymentStatusSucced({ stripeId })
+        
+        const user = await this.userRepository.findByUserId({ id: paymentUpdated.userId })
 
-      if (paymentIntent.status === "succeeded") {
-        return this.prisma.payment.update({ 
-          where: { stripeId },
-          data: { status: 'completed' }
-        });
+        if (!user) {
+          throw new Error("Usuário não encontrado para efetuar o pagamento");
+        }
+
+        if (!paymentUpdated) {
+          throw new Error('Pagamento não foi atualizado');
+        }
+
+        sendMessageToPaymentSucced({
+          stripeId,
+          name: user.name,
+          email: user.email,
+          status: paymentUpdated.status,
+          amount: paymentUpdated.amount,
+          payment_method: paymentUpdated.paymentMethod,
+        })
       } else {
         throw new Error("Pagamento não completado.");
       }

@@ -5,7 +5,7 @@ export class UserRepository {
     return prisma.user.findMany();
   }
   async findByEmail({ email }) {
-    return prisma.user.findUnique({ where: { email }, omit: { password: true, createdAt: true } });
+    return prisma.user.findUnique({ where: { email }, omit: { createdAt: true } });
   };
 
   async findByUserId({ id }) {

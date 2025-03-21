@@ -27,7 +27,7 @@ Content-Type: application/json
 # Requisição POST para adicionar dinheiro a carteira
 # ['debit_balance', 'ticket_balance', 'credit_balance']
 # POST http://localhost:3000/wallet/add_money
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwiaWF0IjoxNzQyMzU2MTYwLCJleHAiOjE3NDI0NDI1NjB9.cZ6TKpSFM-1yALeLNDjNly6zM3lK2jhSsDtUYvgObgY
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwibmFtZSI6Ikd1c3Rhdm8iLCJpYXQiOjE3NDI1MzQ0MjMsImV4cCI6MTc0MjUzODAyM30.ZKG4_zyySH62Uke7qZJq10MFindWj9V1g_8wfbwsYHo
 # Content-Type: application/json
 
 # {
@@ -35,3 +35,15 @@ Content-Type: application/json
 #   "amount": 100.00,
 #   "balanceType": "debit_balance"
 # }
+
+#Requisição para gerar pagamento no stripe
+POST http://localhost:3000/payment/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwibmFtZSI6Ikd1c3Rhdm8iLCJpYXQiOjE3NDI1MzQ0MjMsImV4cCI6MTc0MjUzODAyM30.ZKG4_zyySH62Uke7qZJq10MFindWj9V1g_8wfbwsYHo
+Content-Type: application/json
+
+{
+  "userId":18,
+  "amount":100.00,
+  "currency":"usd",
+  "payment_method": "pm_card_visa"
+}

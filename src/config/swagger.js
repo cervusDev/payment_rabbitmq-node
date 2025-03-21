@@ -8,9 +8,10 @@ export const options = {
     }
   },
   apis: [
-    './src/routes/health.js', 
-    "./src/routes/login_user.js",
-    './src/routes/create_user.js',
-    "./src/routes/wallet/add_money.js",
+    "./src/usecases/auth/routes/auth.js",
+    './src/usecases/health/routes/health.js', 
+    "./src/usecases/user/routes/create_user.js",
+    "./src/usecases/wallet/routes/add_money.js",
+    "./src/usecases/payment/routes/create_payment.js",
   ]
 }

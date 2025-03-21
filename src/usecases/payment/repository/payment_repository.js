@@ -9,14 +9,10 @@ export class PaymentRepository {
     return this.prisma.payment.create({ data });
   };
 
-  async updatePaymentStatus({ stripeId, status }) {
+  async updatePaymentStatusSucced({ stripeId }) {
     return this.prisma.payment.update({
       where: { stripeId },
-      data: { status }
+      data: { status: 'completed' }
     });
-  };
-
-  async getPaymentByStripeId({ stripeId }) {
-    return this.prisma.payment.findUnique({ where: { stripeId } });
   };
 };

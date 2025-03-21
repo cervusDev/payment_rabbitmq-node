@@ -8,12 +8,13 @@ export class AuthService {
   };
 
   async login({ email, password }) {
+    
     const user = await this.userRepository.findByEmail({ email });
-
+    
     if (!user) {
       throw new Error('Credenciais inválidas.');
     };
-
+    
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {

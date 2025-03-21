@@ -19,33 +19,32 @@ export const sendWelcomeEmail = async (email, name) => {
   };
 };
 
-export const sendMessageToInsertValueToWallet = async (
+export const sendMessageToPaymentSucced = async ({
+  payment_method,
+  stripeId,
+  status,
+  amount,
   name,
-  price,
   email,
-  debit_amount,
-  total_amount,
-  credit_amount,
-) => {
+}) => {
   try {
     axios.post(process.env.API_SEND_EMAIL, {
       "user_id": process.env.PUBLIC_EMAIL_KEY,
       "service_id": process.env.SERVICE_EMAIL_ID,
       "accessToken": process.env.PRIVATE_EMAIL_KEY,
-      "template_id": process.env.TEMPLATE_WALLET_ID,
+      "template_id": process.env.TEMPLATE_PAYMENT_CONFIRM,
       "template_params": {
         "name": name,
         "email": email,
-        "price": price,
-        "debit_amount": debit_amount,
-        "total_amount": total_amount,
-        "credit_amount": credit_amount,
+        "amount": amount,
+        "status": status,
+        "stripeId": stripeId,
+        "payment_method": payment_method
       }
     });
 
     console.log('email enviado com sucesso');
   } catch (err) {
     throw new Error('erro ao enviar email:', e);
-
   }
 };

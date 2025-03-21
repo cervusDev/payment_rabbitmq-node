@@ -8,11 +8,16 @@ export class PublishPaymentQueue {
   };
 
   async pub({ status, stripeId, payment_method, amount, currency }) {
-    const { channel } = await this.rabbitmq.connect();
-
-    channel.assertQueue(queue, { durable: false });
-    channel.sendToQueue(queue, Buffer.from(
-      JSON.stringify({ status, stripeId, payment_method, amount, currency })
-    ));
+    try {
+      const { channel } = await this.rabbitmq.connect();
+  
+      channel.assertQueue(queue, { durable: false });
+      
+      return channel.sendToQueue(queue, Buffer.from(
+        JSON.stringify({ status, stripeId, payment_method, amount, currency })
+      ));
+    } catch (err) {
+      throw new Error(err.message)
+    }
   };
 }

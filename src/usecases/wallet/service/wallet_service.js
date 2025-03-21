@@ -1,7 +1,6 @@
 import { PublishWalletQueue } from '../queues/wallet_producer.js';
 import { walleRepository } from '../repository/wallet_repository.js';
 import { UserRepository } from '../../user/repository/user_repository.js';
-import { sendMessageToInsertValueToWallet } from '../../../config/emailjs.js';
 
 export class WalletService {
   constructor() {
@@ -39,10 +38,6 @@ export class WalletService {
         throw new Error('Erro ao atualizar carteira!');
       };
 
-      const total_amount = Number(credit_balance) + Number(debit_balance);
-
-      const user = await this.userRepository.findByUserId({ id });
-      sendMessageToInsertValueToWallet(user.name, amount, credit_balance, debit_balance, total_amount, user.email)
     } catch {
       throw new Error('Erro ao adicionar dinheiro na carteira!', err);
     }

@@ -23,6 +23,11 @@ services:
     networks:
       - rabbitmq_network
 
+networks:
+  rabbitmq_network:
+
 volumes:
+  rabbitmq_data:
+    driver: local
   mysql-volume:
     driver: local
