@@ -3,9 +3,14 @@ import { prisma } from '../../../config/prisma.js'
 export class UserRepository {
   async findAll(){
     return prisma.user.findMany();
-  }
+  };
+
   async findByEmail({ email }) {
     return prisma.user.findUnique({ where: { email }, omit: { createdAt: true } });
+  };
+
+  async findByEmailToTest({ email }) {
+    return prisma.user.findUnique({ where: { email }, omit: { password: true, createdAt: true } })
   };
 
   async findByUserId({ id }) {

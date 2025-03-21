@@ -1,4 +1,6 @@
 import { UserRepository } from '../repository/user_repository.js';
+import bcrypt from 'bcryptjs';
+import jsonwebtoken from 'jsonwebtoken';
 
 describe('UserRepository', () => {
   let userRepository;
@@ -10,7 +12,7 @@ describe('UserRepository', () => {
   describe('findByEmail', () => {
     it('deve retornar o usuário quando o e-mail for encontrado', async () => {
       const mockUser = { id: 18, email: 'gustavo.cervus@gmail.com', name: 'Gustavo' };
-      const result = await userRepository.findByEmail({ email: mockUser.email });
+      const result = await userRepository.findByEmailToTest({ email: mockUser.email });
 
       expect(result).toEqual(mockUser);
     });
