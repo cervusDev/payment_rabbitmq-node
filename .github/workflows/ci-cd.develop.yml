@@ -26,15 +26,16 @@ jobs:
         run: npm install
 
       - name: 🔑 Configurar variáveis de ambiente
-        env:
-          DATABASE_URL: mysql://root:root@localhost:3306/payment_db?schema=public
-        run: echo "Variáveis configuradas"
+        run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+
+      - name: 🔍 Verificar variável DATABASE_URL
+        run: echo "DATABASE_URL está configurada"
 
       - name: 🔄 Gerar cliente do Prisma
         run: npx prisma generate
 
       - name: 🚀 Rodar migrações do Prisma
-        run: npx prisma migrate dev
+        run: npx prisma migrate deploy
 
       - name: 🔍 Testar conexão com o banco de dados
         run: npx prisma db push
