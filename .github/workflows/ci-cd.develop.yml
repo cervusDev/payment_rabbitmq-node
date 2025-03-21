@@ -27,7 +27,7 @@ jobs:
 
       - name: 🔑 Configurar variáveis de ambiente
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: mysql://root:root@localhost:3306/payment_db?schema=public
         run: echo "Variáveis configuradas"
 
       - name: 🔄 Gerar cliente do Prisma
