@@ -28,3 +28,4 @@
 28. conexão do stripe no usecase de pagamento (create/retrive)
 29. configuração dos cenários de testes (JEST)
 30. configuração do pre-push do github com JEST
+31. refatoração das regras de pagamento no payment service
