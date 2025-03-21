@@ -1,4 +1,4 @@
-name: CI/CD Develop
+name: CI Pipeline
 
 on:
   push:
@@ -10,20 +10,19 @@ on:
 
 jobs:
   test:
-    name: Run Jest Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: 🛎️ Checkout do código
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: 🔧 Configurar Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'npm'
 
-      - name: Install Dependencies
+      - name: 📦 Instalar dependências
         run: npm install
 
       - name: 🔑 Configurar variáveis de ambiente
@@ -31,11 +30,18 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: echo "Variáveis configuradas"
 
-      - name: Run Jest Tests
-        run: npm test
+      - name: 🔄 Gerar cliente do Prisma
+        run: npx prisma generate
 
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage
+      - name: 🚀 Rodar migrações do Prisma
+        run: npx prisma migrate deploy
+
+      - name: 🔍 Testar conexão com o banco de dados
+        run: npx prisma db push
+
+      - name: 🧪 Executar testes com Jest
+        run: npm run jest:coverage
+
+      - name: ✅ Push permitido apenas se os testes passarem
+        if: success()
+        run: echo "Os testes passaram! O push para develop está autorizado."
