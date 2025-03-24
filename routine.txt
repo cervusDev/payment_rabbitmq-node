@@ -30,3 +30,4 @@
 30. configuração do pre-push do github com JEST
 31. refatoração das regras de pagamento no payment service
 32. levar os ambientes de rabbitmq e mysql para a nuvem com railway
+33. configurar o build e deploy do ambiente de dev na nuvem com railway
