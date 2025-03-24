@@ -9,7 +9,7 @@ on:
       - develop
 
 jobs:
-  test:
+  dev-deploy:
     runs-on: ubuntu-latest
 
     steps:
