@@ -1,1 +1,5 @@
-#Conectar redis, #implementar, #implementar os testes para o core, CI/CD, DEPLOY
+#Redis to application
+#Jest to core
+#ci/cd - development and production
+#Raylway backend / rabbitmq / mysql / Redis
+#Raylway deploy beckend

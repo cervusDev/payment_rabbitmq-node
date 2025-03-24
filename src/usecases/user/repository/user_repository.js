@@ -1,24 +1,27 @@
 import { prisma } from '../../../config/prisma.js'
 
 export class UserRepository {
+  constructor () {
+    this.prisma = prisma
+  }
   async findAll(){
-    return prisma.user.findMany();
+    return this.prisma.user.findMany();
   };
 
   async findByEmail({ email }) {
-    return prisma.user.findUnique({ where: { email }, omit: { createdAt: true } });
+    return this.prisma.user.findUnique({ where: { email }, omit: { createdAt: true } });
   };
 
   async findByEmailToTest({ email }) {
-    return prisma.user.findUnique({ where: { email }, omit: { password: true, createdAt: true } })
+    return this.prisma.user.findUnique({ where: { email }, omit: { password: true, createdAt: true } })
   };
 
   async findByUserId({ id }) {
-    return prisma.user.findUnique({ where: { id }, omit: { password: true, createdAt: true } });
+    return this.prisma.user.findUnique({ where: { id }, omit: { password: true, createdAt: true } });
   };
 
   async createUser({ name, email, password }) {
-    return await prisma.user.create({
+    return await this.prisma.user.create({
       data: {
         email,
         name,

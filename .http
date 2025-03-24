@@ -2,23 +2,23 @@
 # GET http://localhost:3000/health
 
 # Requisição POST para criação de usuário
-# POST http://localhost:3000/create-user
-# Content-Type: application/json
-
-# {
-#   "name": "Gustavo",
-#   "email": "gustavo.cervus@gmail.com",
-#   "password": "senha"
-# }
-
-# Requisição POST de login
-POST http://localhost:3000/auth
+POST http://localhost:3000/create-user
 Content-Type: application/json
 
 {
+  "name": "Gustavo",
   "email": "gustavo.cervus@gmail.com",
   "password": "senha"
 }
+
+# Requisição POST de login
+# POST http://localhost:3000/auth
+# Content-Type: application/json
+
+# {
+#   "email": "gustavo.cervus@gmail.com",
+#   "password": "senha"
+# }
 
 ### Requisição GET para a rota protegida
 # GET http://localhost:3000/protected
@@ -36,14 +36,14 @@ Content-Type: application/json
 #   "balanceType": "debit_balance"
 # }
 
-#Requisição para gerar pagamento no stripe
-POST http://localhost:3000/payment/create
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwibmFtZSI6Ikd1c3Rhdm8iLCJpYXQiOjE3NDI1MzQ0MjMsImV4cCI6MTc0MjUzODAyM30.ZKG4_zyySH62Uke7qZJq10MFindWj9V1g_8wfbwsYHo
-Content-Type: application/json
+# #Requisição para gerar pagamento no stripe
+# POST http://localhost:3000/payment/create
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwibmFtZSI6Ikd1c3Rhdm8iLCJpYXQiOjE3NDI1MzQ0MjMsImV4cCI6MTc0MjUzODAyM30.ZKG4_zyySH62Uke7qZJq10MFindWj9V1g_8wfbwsYHo
+# Content-Type: application/json
 
-{
-  "userId":18,
-  "amount":100.00,
-  "currency":"usd",
-  "payment_method": "pm_card_visa"
-}
+# {
+#   "userId":18,
+#   "amount":100.00,
+#   "currency":"usd",
+#   "payment_method": "pm_card_visa"
+# }

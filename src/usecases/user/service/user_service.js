@@ -6,8 +6,8 @@ import { walleRepository } from '../../wallet/repository/wallet_repository.js';
 
 export class UserService {
   constructor() {
-    this.userRepository = new UserRepository();
     this.walletRepository = walleRepository;
+    this.userRepository = new UserRepository();
   };
 
   async createUser({ name, email, password }) {

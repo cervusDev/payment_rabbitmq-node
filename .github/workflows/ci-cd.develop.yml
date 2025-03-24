@@ -35,7 +35,7 @@ jobs:
         run: npx prisma generate
 
       - name: 🚀 Rodar migrações do Prisma
-        run: npx prisma migrate deploy
+        run: npx prisma migrate dev
 
       - name: 🔍 Testar conexão com o banco de dados
         run: npx prisma db push
