@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 # Requisição POST de login
-# POST http://localhost:3000/auth
+# POST https://paymentrabbitmq-dev-node-production.up.railway.app/auth
 # Content-Type: application/json
 
 # {
@@ -21,12 +21,12 @@ Content-Type: application/json
 # }
 
 ### Requisição GET para a rota protegida
-# GET http://localhost:3000/protected
+# GET https://paymentrabbitmq-dev-node-production.up.railway.app/protected
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwiaWF0IjoxNzQyMzMxMDUwLCJleHAiOjE3NDI0MTc0NTB9.LgAbOLCK9HcrAEr9pY0bV6HPNW5U8qAeajaXcue-reQ
 
 # Requisição POST para adicionar dinheiro a carteira
 # ['debit_balance', 'ticket_balance', 'credit_balance']
-# POST http://localhost:3000/wallet/add_money
+# POST https://paymentrabbitmq-dev-node-production.up.railway.app/wallet/add_money
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwibmFtZSI6Ikd1c3Rhdm8iLCJpYXQiOjE3NDI1MzQ0MjMsImV4cCI6MTc0MjUzODAyM30.ZKG4_zyySH62Uke7qZJq10MFindWj9V1g_8wfbwsYHo
 # Content-Type: application/json
 
@@ -37,7 +37,7 @@ Content-Type: application/json
 # }
 
 # #Requisição para gerar pagamento no stripe
-# POST http://localhost:3000/payment/create
+# POST https://paymentrabbitmq-dev-node-production.up.railway.app/payment/create
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwibmFtZSI6Ikd1c3Rhdm8iLCJpYXQiOjE3NDI1MzQ0MjMsImV4cCI6MTc0MjUzODAyM30.ZKG4_zyySH62Uke7qZJq10MFindWj9V1g_8wfbwsYHo
 # Content-Type: application/json
 

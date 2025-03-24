@@ -31,3 +31,13 @@
 31. refatoração das regras de pagamento no payment service
 32. levar os ambientes de rabbitmq e mysql para a nuvem com railway
 33. configurar o build e deploy do ambiente de dev na nuvem com railway
+
+======== A FAZER ===========
+Testar as rotas com o banco de dados em nuvem (desde a criação de usuário até as regras de negócio)
+Implementação de um banco Redis
+Aplicar conceitos de DDD / SOLID / CLEAN ARCH / ARQUITETURA HEXAGONAL (Verificar melhor opção)
+Refatoração de autenticação com keyClock
+Implementaçao de um API gateway com Kong
+Reconfigurar os testes
+Diagrama C4
+Criar uma documentação da aplição backend

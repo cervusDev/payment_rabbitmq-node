@@ -15,7 +15,9 @@ export class UserService {
       throw new Error('Email inválido!'); 
     };
 
-    const user = await userRepository.findByEmail({ email });
+    console.log('log')
+
+    const user = await this.userRepository.findByEmail({ email });
 
     if (user) {
       throw new Error('Email já foi cadastrado por outro usuário!');
@@ -23,13 +25,13 @@ export class UserService {
 
     try {
       const hashPassword = await bcrypt.hash(password, 10);
-      const newUser = await userRepository.createUser({ name, email, password: hashPassword });
+      const newUser = await this.userRepository.createUser({ name, email, password: hashPassword });
       
       if (!newUser) {
         throw new Error('Erro ao criar o usuário!');
       };
 
-      const wallet = await walleRepository.createWallet({ userId: newUser.id })
+      const wallet = await this.walletRepository.createWallet({ userId: newUser.id })
       
       if (!wallet) {
         throw new Error('Erro ao criar carteira do usuário, por favor acione a equipe interna!');
