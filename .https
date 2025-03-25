@@ -1,0 +1,45 @@
+# Requisição GET
+# GET http://localhost:3000/health
+
+# Requisição POST para criação de usuário
+# POST https://paymentrabbitmq-node-development.up.railway.app/create-user
+# Content-Type: application/json
+
+# {
+#   "name": "Gustavo",
+#   "email": "gustavo.cervus@gmail.com",
+#   "password": "senha"
+# }
+
+# #Requisição POST de login
+# POST https://paymentrabbitmq-node-development.up.railway.app/auth
+# Content-Type: application/json
+
+# {
+#   "email": "gustavo.cervus@gmail.com",
+#   "password": "senha"
+# }
+
+# Requisição POST para adicionar dinheiro a carteira
+# ['debit_balance', 'ticket_balance', 'credit_balance']
+# POST https://paymentrabbitmq-node-development.up.railway.app/wallet/add_money
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwibmFtZSI6Ikd1c3Rhdm8iLCJpYXQiOjE3NDI4NjgzNDYsImV4cCI6MTc0Mjg3MTk0Nn0.PZIWgi0-nht8xinkHfVeHBQqjvLSvKsG9XcCSlRgOTk
+# Content-Type: application/json
+
+# {
+#   "userId": 12,
+#   "amount": 4000.00,
+#   "balanceType": "debit_balance"
+# }
+
+#Requisição para gerar pagamento no stripe
+# POST https://paymentrabbitmq-node-development.up.railway.app/payment/create
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImVtYWlsIjoiZ3VzdGF2by5jZXJ2dXNAZ21haWwuY29tIiwibmFtZSI6Ikd1c3Rhdm8iLCJpYXQiOjE3NDI4NjgzNDYsImV4cCI6MTc0Mjg3MTk0Nn0.PZIWgi0-nht8xinkHfVeHBQqjvLSvKsG9XcCSlRgOTk
+# Content-Type: application/json
+
+# {
+#   "userId": 12,
+#   "amount":100.00,
+#   "currency":"usd",
+#   "payment_method": "pm_card_visa"
+# }

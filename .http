@@ -12,7 +12,7 @@
 # }
 
 #Requisição POST de login
-# POST https://paymentrabbitmq-node-development.up.railway.app/auth
+# POST http://localhost:3000/auth
 # Content-Type: application/json
 
 # {
@@ -38,7 +38,7 @@
 # Content-Type: application/json
 
 # {
-#   "userId": 8,
+#   "userId":,
 #   "amount":100.00,
 #   "currency":"usd",
 #   "payment_method": "pm_card_visa"
