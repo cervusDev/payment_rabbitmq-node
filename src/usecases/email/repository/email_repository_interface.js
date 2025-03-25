@@ -1,8 +1,6 @@
-import axios from 'axios';
-
-export const sendWelcomeEmail = async (email, name) => {
-  try {
-    axios.post(process.env.API_SEND_EMAIL, {
+export class IEmailRepository {
+  WelcomeData ({ name, email }) {
+    return {
       "user_id": process.env.PUBLIC_EMAIL_KEY,
       "service_id": process.env.SERVICE_EMAIL_ID,
       "accessToken": process.env.PRIVATE_EMAIL_KEY,
@@ -11,24 +9,18 @@ export const sendWelcomeEmail = async (email, name) => {
         "name": name,
         "email": email,
       }
-    });
+    }
+  }
 
-    console.log('email enviado com sucesso');
-  } catch (err) {
-    throw new Error('erro ao enviar email:', err);
-  };
-};
-
-export const sendMessageToPaymentSucced = async ({
-  payment_method,
-  stripeId,
-  status,
-  amount,
-  name,
-  email,
-}) => {
-  try {
-    axios.post(process.env.API_SEND_EMAIL, {
+  PaymentSuccedData({
+    name,
+    email,
+    amount,
+    status,
+    stripeId,
+    payment_method,
+  }) {
+    return {
       "user_id": process.env.PUBLIC_EMAIL_KEY,
       "service_id": process.env.SERVICE_EMAIL_ID,
       "accessToken": process.env.PRIVATE_EMAIL_KEY,
@@ -41,10 +33,6 @@ export const sendMessageToPaymentSucced = async ({
         "stripeId": stripeId,
         "payment_method": payment_method
       }
-    });
-
-    console.log('email enviado com sucesso');
-  } catch (err) {
-    throw new Error('erro ao enviar email:', e);
+    }
   }
-};
+}

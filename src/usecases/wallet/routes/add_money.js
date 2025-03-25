@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticateToken } from '../../../config/token_jwt.js';
+import { authenticateToken } from '../../../validators/token_jwt.js';
 import { WalletController } from '../controller/wallet_controller.js';
 
 const addValueToWalletRouter = express.Router();

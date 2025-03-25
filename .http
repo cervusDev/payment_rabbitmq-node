@@ -1,13 +1,13 @@
 # Requisição GET
 # GET http://localhost:3000/health
 
-# Requisição POST para criação de usuário
+# # Requisição POST para criação de usuário
 # POST http://localhost:3000/create-user
 # Content-Type: application/json
 
 # {
 #   "name": "Gustavo",
-#   "email": "gustavo.cervus@gmail.com",
+#   "email": "gustasfdavoasf.cervdasus@gmail.com",
 #   "password": "senha"
 # }
 
@@ -23,7 +23,7 @@
 # Requisição POST para adicionar dinheiro a carteira
 # ['debit_balance', 'ticket_balance', 'credit_balance']
 # POST http://localhost:3000/wallet/add_money
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJndXN0YXZvLmNlcnZ1c0BnbWFpbC5jb20iLCJuYW1lIjoiR3VzdGF2byIsImlhdCI6MTc0Mjg2MzM4NiwiZXhwIjoxNzQyODY2OTg2fQ.IA8WCPK_riLx7RkHaAsxQHCZtfLIFBGG5niFxo6P6xo
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJndXN0YXZvLmNlcnZ1c0BnbWFpbC5jb20iLCJuYW1lIjoiR3VzdGF2byIsImlhdCI6MTc0Mjg3NTM0NywiZXhwIjoxNzQyODc4OTQ3fQ.EAebBYCkq0WT7kZIM29_DB91gLizONt2w8WJEYA2VXo
 # Content-Type: application/json
 
 # {
@@ -34,11 +34,11 @@
 
 #Requisição para gerar pagamento no stripe
 # POST http://localhost:3000/payment/create
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJndXN0YXZvLmNlcnZ1c0BnbWFpbC5jb20iLCJuYW1lIjoiR3VzdGF2byIsImlhdCI6MTc0Mjg2MzM4NiwiZXhwIjoxNzQyODY2OTg2fQ.IA8WCPK_riLx7RkHaAsxQHCZtfLIFBGG5niFxo6P6xo
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJndXN0YXZvLmNlcnZ1c0BnbWFpbC5jb20iLCJuYW1lIjoiR3VzdGF2byIsImlhdCI6MTc0Mjg3NTM0NywiZXhwIjoxNzQyODc4OTQ3fQ.EAebBYCkq0WT7kZIM29_DB91gLizONt2w8WJEYA2VXo
 # Content-Type: application/json
 
 # {
-#   "userId":,
+#   "userId": 8,
 #   "amount":100.00,
 #   "currency":"usd",
 #   "payment_method": "pm_card_visa"

@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticateToken } from '../../../config/token_jwt.js';
+import { authenticateToken } from '../../../validators/token_jwt.js';
 import { PaymentController } from '../controller/payment_controller.js';
 
 const createPaymentRouter = express.Router();

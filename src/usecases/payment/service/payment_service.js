@@ -1,6 +1,6 @@
 import { StripeConfig } from '../../../config/stripe.js';
 import { ValidatorRules } from '../rules/payment_rules.js';
-import { sendMessageToPaymentSucced } from '../../../config/emailjs.js';
+import { EmailService } from '../../email/service/email_service.js';
 import { PaymentRepository } from '../repository/payment_repository.js';
 import { UserRepository } from '../../user/repository/user_repository.js';
 import { WalleRepository } from '../../wallet/repository/wallet_repository.js';
@@ -8,6 +8,7 @@ import { WalleRepository } from '../../wallet/repository/wallet_repository.js';
 export class PaymentService {
   constructor() {
     this.stripe = new StripeConfig();
+    this.emailService = new EmailService();
     this.userRepository = new UserRepository();
     this.validatorRules = new ValidatorRules();
     this.walleRepository = new WalleRepository();
@@ -91,15 +92,14 @@ export class PaymentService {
         throw new Error("Usuário não encontrado para efetuar o pagamento");
       }
 
-      sendMessageToPaymentSucced({
+      await this.emailService.sendMessageToPaymentSucced({
         stripeId,
         name: user.name,
         email: user.email,
         status: paymentUpdated.status,
         amount: paymentUpdated.amount,
         payment_method: paymentUpdated.paymentMethod,
-      })
-
+      });
     } catch (err) {
       throw new Error(err.message);
     }

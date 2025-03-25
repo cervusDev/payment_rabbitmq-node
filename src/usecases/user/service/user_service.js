@@ -1,12 +1,13 @@
 import bcrypt from 'bcryptjs';
 import { emailValidator } from '../../../validators/email.js';
-import { sendWelcomeEmail } from '../../../config/emailjs.js';
 import { UserRepository } from '../repository/user_repository.js';
+import { EmailService } from '../../email/service/email_service.js';
 import { WalleRepository } from '../../wallet/repository/wallet_repository.js';
 
 export class UserService {
   constructor() {
     this.userRepository = new UserRepository();
+    this.emailService = new EmailService();
     this.walletRepository = new WalleRepository();
   };
 
@@ -34,7 +35,7 @@ export class UserService {
         throw new Error('Erro ao criar carteira do usuário, por favor acione a equipe interna!');
       };
 
-      await sendWelcomeEmail(newUser.email, newUser.name)
+      await this.emailService.sendWelcomeEmail({ email: newUser.email, name: newUser.name });
 
       return {
         name,
@@ -42,7 +43,7 @@ export class UserService {
         id: newUser.id,
       }
     } catch (err) {
-
+      throw new Error(err.message);
     }
   }
 }

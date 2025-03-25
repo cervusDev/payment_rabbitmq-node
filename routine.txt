@@ -33,12 +33,9 @@
 33. configurar o build e deploy do ambiente de dev na nuvem com railway
 34. testar as rotas com o banco de dados em nuvem (desde a criação de usuário até as regras de negócio)
 35. reconfigurar os testes
+36. Aplicando refatorações para melhor separação do código
 
 ======== A FAZER ===========
-Aplicar conceitos de DDD / SOLID / CLEAN ARCH / ARQUITETURA HEXAGONAL (Verificar melhor opção)
-Implementação de um banco Redis
-Refatoração de autenticação com keyClock
-Implementaçao de um API gateway com Kong
 Diagrama C4
-Criar uma documentação da aplição backend
 Escrever novos testes
+Criar uma documentação da aplição backend
