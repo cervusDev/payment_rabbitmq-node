@@ -34,8 +34,8 @@
 34. testar as rotas com o banco de dados em nuvem (desde a criação de usuário até as regras de negócio)
 35. reconfigurar os testes
 36. Aplicando refatorações para melhor separação do código
+37. Diagrama C4
 
 ======== A FAZER ===========
-Diagrama C4
 Escrever novos testes
 Criar uma documentação da aplição backend

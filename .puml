@@ -1,0 +1,201 @@
+@startuml
+
+!define table(x) class x << (T,#FFAAAA) >>
+
+' Definindo a entidade User
+table(User) {
+  +id: Int
+  +name: String
+  +email: String <<unique>>
+  +password: String
+  +createdAt: DateTime
+  +changePassword(newPassword: String): void
+  +updateEmail(newEmail: String): void
+}
+
+' Definindo a entidade Payment
+table(Payment) {
+  +id: Int
+  +stripeId: String? <<unique, nullable>>
+  +currency: String? <<nullable>>
+  +amount: Decimal
+  +status: PaymentStatus
+  +paymentMethod: PaymentMethod
+  +createdAt: DateTime
+  +userId: Int
+  +processPayment(): boolean
+  +updateStatus(newStatus: PaymentStatus): void
+  +createPaymentCredit(amount: Decimal, currency: String, stripeToken: String): void
+  +confirmPayment(stripeId: String): boolean
+}
+
+' Definindo a entidade Wallet
+table(Wallet) {
+  +id: Int
+  +debit_balance: Decimal <<default: 0.0>>
+  +ticket_balance: Decimal <<default: 0.0>>
+  +credit_balance: Decimal <<default: 0.0>>
+  +last_updated: DateTime
+  +userId: Int
+  +updateBalance(amount: Decimal): void
+  +checkBalance(): Decimal
+  +orderToInsertValue(amount: Decimal): void
+  +addMoney(amount: Decimal): void
+}
+
+' Definindo os enums de PaymentStatus e PaymentMethod
+enum PaymentStatus {
+  failed
+  pending
+  canceled
+  completed
+}
+
+enum PaymentMethod {
+  debit
+  credit
+  ticket
+}
+
+' Relacionamentos entre as entidades
+User "1" -- "0..*" Payment : has
+User "1" -- "1" Wallet : owns
+Payment "0..*" -- "1" User : belongs to
+Wallet "1" -- "1" User : belongs to
+
+' Relacionando PaymentStatus e PaymentMethod a Payment
+note right of Payment::status
+  Enum PaymentStatus: {failed, pending, canceled, completed}
+end note
+
+note right of Payment::paymentMethod
+  Enum PaymentMethod: {debit, credit, ticket}
+end note
+
+' Adicionando anotações explicativas
+note right of Wallet::debit_balance
+  Valor padrão: 0.0
+end note
+
+note right of User::email
+  Chave única
+end note
+
+note right of Payment::stripeId
+  Chave única
+end note
+
+' Chaves estrangeiras explicitas
+note right of Payment::userId
+  Chave estrangeira referenciando User
+end note
+
+note right of Wallet::userId
+  Chave estrangeira referenciando User
+end note
+
+' Definindo os serviços externos
+class EmailjsToUser {
+  +sendEmail(to: String, subject: String, message: String): boolean
+  +configure(apiKey: String): void
+}
+
+class EmailjsToPayment {
+  +sendEmail(to: String, subject: String, message: String): boolean
+  +configure(apiKey: String): void
+}
+
+class RabbitMQToUser {
+  +sendMessage(queue: String, message: String): void
+  +receiveMessage(queue: String): String
+}
+
+class RabbitMQToPayment {
+  +sendMessage(queue: String, message: String): void
+  +receiveMessage(queue: String): String
+}
+
+' Serviço de Autenticação com JWT
+class AuthService {
+  +generateToken(userId: Int): String
+  +validateToken(token: String): boolean
+  +decodeToken(token: String): Map<String, Object>
+}
+
+' Serviço de Wallet
+class WalletService {
+  +createWallet(userId: Int): Wallet
+  +getWallet(userId: Int): Wallet
+  +updateWalletBalance(userId: Int, amount: Decimal): Wallet
+  +orderToInsertValue(userId: Int, amount: Decimal): void
+  +addMoney(userId: Int, amount: Decimal): void
+}
+
+' Serviço de Payment
+class PaymentService {
+  +createPaymentCredit(amount: Decimal, currency: String, stripeToken: String): Payment
+  +confirmPayment(stripeId: String): boolean
+  +updatePaymentStatus(paymentId: Int, newStatus: PaymentStatus): void
+}
+
+' Serviço de User
+class UserService {
+  +createUser(name: String, email: String, password: String): User
+  +updateUserDetails(userId: Int, newName: String, newEmail: String): User
+  +changeUserPassword(userId: Int, newPassword: String): void
+  +getUserById(userId: Int): User
+  +getUserByEmail(email: String): User
+}
+
+' Repositórios conectados ao Prisma
+class PaymentRepository {
+  +createPayment(payment: Payment): void
+  +findPaymentById(paymentId: Int): Payment
+  +updatePaymentStatus(paymentId: Int, newStatus: PaymentStatus): void
+  +findPaymentsByUserId(userId: Int): List<Payment>
+}
+
+class WalletRepository {
+  +createWallet(userId: Int): Wallet
+  +findWalletByUserId(userId: Int): Wallet
+  +updateWalletBalance(userId: Int, amount: Decimal): Wallet
+}
+
+class UserRepository {
+  +findUserByEmail(email: String): User
+  +findUserById(userId: Int): User
+  +saveUser(user: User): void
+  +updateUser(user: User): void
+  +deleteUser(userId: Int): void
+}
+
+' Relacionamento entre o UserService e UserRepository
+UserService "1" -- "1" UserRepository : uses
+
+' Relacionamento entre o WalletService e WalletRepository
+WalletService "1" -- "1" WalletRepository : uses
+
+' Relacionamento entre o PaymentService e PaymentRepository
+PaymentService "1" -- "1" PaymentRepository : uses
+
+' Relacionamento entre o AuthService e UserRepository
+AuthService "1" -- "1" UserRepository : uses
+
+' Relacionamento entre o User e os serviços externos
+EmailjsToUser "1" -- "1" UserService : uses
+EmailjsToPayment "1" -- "1" PaymentService : uses
+RabbitMQToUser "1" -- "1" UserService : uses
+RabbitMQToPayment "1" -- "1" PaymentService : uses
+User "1" -- "1" UserRepository: uses
+Wallet "1" -- "1" WalletRepository: uses
+Payment "1" -- "1" PaymentRepository: uses
+PaymentMethod "1" -- "1" Payment : uses
+PaymentStatus "1" -- "1" Payment : uses
+
+' Interações dos serviços com o sistema
+note right of User::createdAt
+  Quando o usuário se cadastra, um email é enviado
+  pelo serviço Emailjs e a notificação é enviada via RabbitMQ.
+end note
+
+@enduml
