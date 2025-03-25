@@ -18,9 +18,7 @@ model User {
 
   wallet   Wallet?
 
-  tickets Ticket[]
   payments Payment[]
-  transaction WalletTransaction[]
 }
 
 model Payment {
@@ -51,45 +49,6 @@ model Wallet {
   user User @relation(fields: [userId], references: [id])
 }
 
-model WalletTransaction {
-  id Int @id @default(autoincrement())
-
-  amount Decimal
-  description String
-
-  type TransactionType
-  operation TransactionOperation
-
-  created_at DateTime @default(now())
-
-  userId Int
-  user User @relation(fields: [userId], references: [id])
-}
-
-model Ticket {
-  id        Int   @id @default(autoincrement())
-
-  amount    Decimal
-  dueDate   DateTime
-  status    TicketStatus
-  
-  createdAt DateTime @default(now())
-
-  userId    Int
-  user User @relation(fields: [userId], references: [id])
-}
-
-enum TransactionType {
-  debit
-  ticket
-  credit
-}
-
-enum TransactionOperation {
-  deposit
-  withdraw
-}
-
 enum PaymentStatus {
   failed
   pending
@@ -101,10 +60,4 @@ enum PaymentMethod {
   debit
   credit
   ticket
-}
-
-enum TicketStatus {
-  paid
-  pending
-  canceled
 }
