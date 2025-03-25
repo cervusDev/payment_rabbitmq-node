@@ -38,7 +38,7 @@ app.use(addValueToWalletRouter);
 const startServer = async () => {
   try {
     //INITIALIZE CONSUMER QUEUES
-    new SubscribeWalletQueue();
+    new SubscribeWalletQueue().sub();
     new SubscribePaymentQueue().sub();
 
     app.listen(3000, () => {

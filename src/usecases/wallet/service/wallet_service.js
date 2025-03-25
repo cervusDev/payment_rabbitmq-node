@@ -1,11 +1,9 @@
 import { PublishWalletQueue } from '../queues/wallet_producer.js';
-import { walleRepository } from '../repository/wallet_repository.js';
-import { UserRepository } from '../../user/repository/user_repository.js';
+import { WalleRepository } from '../repository/wallet_repository.js';
 
 export class WalletService {
   constructor() {
-    this.walleRepository = walleRepository;
-    this.userRepository = new UserRepository();
+    this.walleRepository = new WalleRepository();
     this.walletQueue = new PublishWalletQueue();
   };
 
@@ -24,10 +22,10 @@ export class WalletService {
 
   async addMoney({ userId, balanceType, amount }) {
     try {
-      const wallet = await this.walleRepository.findByUser({ userId });
+      const wallet = await this.walleRepository.findByUserId({ userId });
 
       if (!wallet) {
-        throw new Error(`Carteira não encontrada para o usuário de id:${userId}!`);
+        throw new Error(`Carteira não encontrada para o usuário de id: ${userId}!`);
       }
       
       const balanceValue =  Number(amount) + Number(wallet[balanceType]);
@@ -38,8 +36,14 @@ export class WalletService {
         throw new Error('Erro ao atualizar carteira!');
       };
 
-    } catch {
-      throw new Error('Erro ao adicionar dinheiro na carteira!', err);
+      return {
+        id, 
+        debit_balance,
+        credit_balance, 
+      }
+
+    } catch(err) {
+      throw new Error(err.message);
     }
   }
 }

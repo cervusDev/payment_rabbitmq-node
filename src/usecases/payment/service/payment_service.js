@@ -27,7 +27,23 @@ export class PaymentService {
         currency,
         payment_method,
       });
+
+      if (!id) {
+        throw new Error('Erro ao criar o pagamento.')
+      }
+
+      const { sub_status, value } = await this.validatorRules.substracionWalletValueToDebit({ debit_balance: wallet.debit_balance, amount })
       
+      if (!sub_status) {
+        throw new Error('Erro ao calcular a subtração do pagamento.')
+      }
+
+      const updateWallet = await this.walleRepository.updateWallet({ userId, balanceType: 'debit_balance', balanceValue: value })
+      
+      if (!updateWallet) {
+        throw new Error('Erro ao atualizar a carteira.');
+      }
+
       const data = {
         userId,
         amount,
@@ -47,7 +63,7 @@ export class PaymentService {
         currency: res.currency, 
       }
     } catch (err) {
-      throw new Error(err);
+      throw new Error(err.message);
     };
   };
 
@@ -57,7 +73,7 @@ export class PaymentService {
         throw new Error("Não existe um id para a transação do stripe.")
       }
 
-      const { status } = await this.stripe.paymentIntentsRetrive(stripeId);
+      const { status } = await this.stripe.paymentIntentsRetrive({ stripeId });
       
       if (!this.validatorRules.verifyTransactionStatus({ status })) {
         throw new Error('Transação não foi atualizado.');
@@ -83,8 +99,9 @@ export class PaymentService {
         amount: paymentUpdated.amount,
         payment_method: paymentUpdated.paymentMethod,
       })
+
     } catch (err) {
-      throw new Error("Pagamento não completado.");
+      throw new Error(err.message);
     }
   };
 }

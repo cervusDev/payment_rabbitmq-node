@@ -27,7 +27,7 @@ export class UserRepository {
         name,
         password
       },
-      omit: { password: true, createdAt: true, id: true }
+      omit: { password: true, createdAt: true }
     });
   };
 }

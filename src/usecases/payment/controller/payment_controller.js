@@ -10,7 +10,6 @@ export class PaymentController {
   async create(req, res) {
     try {
       const { amount, currency, payment_method, userId } = req.body;
-      
       const payment = await this.paymentService.createPaymentCredit({ amount, currency, payment_method, userId })
       
       if (payment.status === 'pending') {

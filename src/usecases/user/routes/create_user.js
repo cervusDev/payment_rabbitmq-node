@@ -29,9 +29,9 @@ const createUserRouter = express.Router();
  *         description: Usuário criado com sucesso
  */
 
-createUserRouter.post('/create-user', (req, res) => {
+createUserRouter.post('/create-user', async (req, res) => {
   const userController = new UserController();
-  userController.create(req, res);
+  await userController.create(req, res);
 });
 
 export { createUserRouter };

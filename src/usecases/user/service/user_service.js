@@ -2,28 +2,25 @@ import bcrypt from 'bcryptjs';
 import { emailValidator } from '../../../validators/email.js';
 import { sendWelcomeEmail } from '../../../config/emailjs.js';
 import { UserRepository } from '../repository/user_repository.js';
-import { walleRepository } from '../../wallet/repository/wallet_repository.js';
+import { WalleRepository } from '../../wallet/repository/wallet_repository.js';
 
 export class UserService {
   constructor() {
-    this.walletRepository = walleRepository;
     this.userRepository = new UserRepository();
+    this.walletRepository = new WalleRepository();
   };
 
   async createUser({ name, email, password }) {
-    if (!emailValidator(email)){
-      throw new Error('Email inválido!'); 
-    };
-
-    console.log('log')
-
-    const user = await this.userRepository.findByEmail({ email });
-
-    if (user) {
-      throw new Error('Email já foi cadastrado por outro usuário!');
-    };
-
     try {
+      if (!emailValidator(email)){
+        throw new Error('Email inválido!'); 
+      };
+      
+      const user = await this.userRepository.findByEmail({ email });
+      
+      if (user) {
+        throw new Error('Email já foi cadastrado por outro usuário!');
+      };
       const hashPassword = await bcrypt.hash(password, 10);
       const newUser = await this.userRepository.createUser({ name, email, password: hashPassword });
       
@@ -43,7 +40,6 @@ export class UserService {
         name,
         email,
         id: newUser.id,
-        createdAt: newUser.createdAt
       }
     } catch (err) {
 

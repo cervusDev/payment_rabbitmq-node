@@ -9,7 +9,7 @@ export class UserController {
     try {
       const { name, email, password } = req.body;
       const data = await this.userService.createUser({ email, name, password })
-      return res.status(200).json(data);
+      res.status(200).json(data);
     } catch (err) {
       throw new Error(err.message);
     }

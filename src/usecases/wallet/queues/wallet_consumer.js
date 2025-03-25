@@ -15,15 +15,16 @@ export class SubscribeWalletQueue {
     channel.assertQueue(queue, { durable: false });
     console.log(`[*] Escutando a fila '${queue}'...`);
   
-    channel.consume(queue, async (msg) => {
+    channel.consume(queue, async (msg) => { 
       try {
         const { userId, amount, balanceType } = JSON.parse(msg.content.toString());
         await this.walletService.addMoney({ balanceType, userId, amount });
         
         console.log(`[x] Recebido na fila: '${msg.content.toString()}'`);
         channel.ack(msg);
+
       } catch (err) {
-        throw new Error('Erro ao adicionar dinheiro na carteira!', err);
+        throw new Error(err.message);
       };
     });
   };

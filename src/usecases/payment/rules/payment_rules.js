@@ -16,4 +16,18 @@ export class ValidatorRules {
       return false;
     }
   }
+
+  async substracionWalletValueToDebit({ debit_balance, amount }) {
+    if (!debit_balance && amount) {
+      return {
+        sub_status: false,
+        value: ''
+      };
+    } else {
+      return {
+        sub_status: true,
+        value: debit_balance - amount
+      }
+    }
+  }
 }
