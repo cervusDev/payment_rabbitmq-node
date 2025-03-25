@@ -5,10 +5,10 @@ export class WalletController {
     this.walletService = new WalletService();
   };
 
-  async addMoney(req, res) {
+  async createOrder(req, res) {
     try {
       const { amount, balanceType, userId } = req.body;
-      const data = await this.walletService.publishValueWallet({ amount, balanceType, userId });
+      const data = await this.walletService.orderToInsertValue({ amount, balanceType, userId });
       res.status(200).json(data)
     } catch (err) {
       throw new Error(err.message)

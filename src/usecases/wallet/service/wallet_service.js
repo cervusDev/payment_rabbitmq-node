@@ -7,7 +7,7 @@ export class WalletService {
     this.walletQueue = new PublishWalletQueue();
   };
 
-  async publishValueWallet({ userId, amount, balanceType }) {
+  async orderToInsertValue({ userId, amount, balanceType }) {
     try {
       if (!['debit_balance', 'ticket_balance', 'credit_balance'].includes(balanceType)) {
         throw new Error('Tipo de saldo inválido!');

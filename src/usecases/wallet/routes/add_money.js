@@ -31,7 +31,7 @@ const addValueToWalletRouter = express.Router();
  */
 addValueToWalletRouter.post('/wallet/add_money', authenticateToken, (req, res) => {
   const walletController = new WalletController();
-  walletController.addMoney(req, res);
+  walletController.createOrder(req, res);
 })
 
 export { addValueToWalletRouter };

@@ -1,5 +1,6 @@
 import { StripeConfig } from '../../../config/stripe.js';
 import { ValidatorRules } from '../rules/payment_rules.js';
+import { PublishPaymentQueue } from '../queues/payment_producer.js';
 import { EmailService } from '../../email/service/email_service.js';
 import { PaymentRepository } from '../repository/payment_repository.js';
 import { UserRepository } from '../../user/repository/user_repository.js';
@@ -12,6 +13,7 @@ export class PaymentService {
     this.userRepository = new UserRepository();
     this.validatorRules = new ValidatorRules();
     this.walleRepository = new WalleRepository();
+    this.paymentQueue = new PublishPaymentQueue();
     this.paymentRepository = new PaymentRepository();
   };
 
@@ -54,13 +56,33 @@ export class PaymentService {
         paymentMethod: 'credit',
       };
 
-      const { status, stripeId, paymentMethod, ...res } = await this.paymentRepository.createPayment({ data })
+      const payment = await this.paymentRepository.createPayment({ data })
+
+      if (!payment) {
+        throw new Error('Erro para criar o pagamento.')
+      };
+
+      if (payment.status !== 'pending') {
+        throw new Error("Erro no status do pagamento.")
+      }
+
+      const queue = await this.paymentQueue.pub({  
+        amount: payment.amount,
+        status: payment.status,
+        currency: payment.currency,
+        stripeId: payment.stripeId,
+        payment_method: payment_method,
+      });
+
+      if (!queue) {
+        throw new Error('Erro ao envia o pagamento para a fila.')
+      }
 
       return {
-        status, 
         stripeId, 
         paymentMethod,
         amount: res.amount, 
+        status: payment.status, 
         currency: res.currency, 
       }
     } catch (err) {
